@@ -92,8 +92,29 @@ export const Home: React.FC = () => {
               <div
                 key={category.value}
                 onClick={() => navigate(`/menu?category=${category.value}`)}
-                className="bg-gray-100 rounded-lg p-8 text-center hover:shadow-lg transition-shadow cursor-pointer"
+                className="bg-gray-100 rounded-lg p-8 text-center hover:shadow-lg transition-shadow cursor-pointer overflow-hidden"
               >
+                {category.value === 'petit-dejeuner' && (
+                  <img 
+                    src="/Petit-dejenuer.jpeg" 
+                    alt={category.label[language]}
+                    className="w-full h-48 object-cover rounded-lg mb-4"
+                  />
+                )}
+                {category.value === 'boissons' && (
+                  <img 
+                    src="/boissons.jpeg" 
+                    alt={category.label[language]}
+                    className="w-full h-48 object-cover rounded-lg mb-4"
+                  />
+                )}
+                {category.value === 'plats-chauds' && (
+                  <img 
+                    src="/platchaud.jpeg" 
+                    alt={category.label[language]}
+                    className="w-full h-48 object-cover rounded-lg mb-4"
+                  />
+                )}
                 <h3 className="text-2xl font-semibold mb-4">{category.label[language]}</h3>
               </div>
             ))}
