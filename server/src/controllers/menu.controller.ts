@@ -71,20 +71,25 @@ export const downloadMenuPDF = async (
     doc.pipe(res);
 
     // Header with background color
+    const headerHeight = 160;
+    // A4 page width is exactly 595.28 points
+    const pageWidth = 595.28;
     doc
       .fillColor('#2563eb')
-      .rect(0, 0, doc.page.width, 120)
+      .rect(0, 0, pageWidth, headerHeight)
       .fill();
 
-    // Add logo - centered on the header
+    // Add logo - centered on the header (both horizontally and vertically)
     try {
       const logoPath = path.join(process.cwd(), '..', 'client', 'public', 'ehtpbuvettelogo.png');
-      // Center the logo horizontally (page width is 595 for A4, margin 50 on each side = 495 width)
-      // Logo should be 100px wide, so position at (595 - 100) / 2 = 247.5
-      const logoWidth = 100;
-      const logoHeight = 60;
-      const logoX = (doc.page.width - logoWidth) / 2;
-      doc.image(logoPath, logoX, 25, { 
+      const logoWidth = 250;
+      const logoHeight = 150;
+      // Calculate exact center position for horizontal centering
+      const logoX = (pageWidth - logoWidth) / 2;
+      // Calculate exact center position for vertical centering in header
+      const logoY = (headerHeight - logoHeight) / 2;
+      // Position the image at the calculated center coordinates
+      doc.image(logoPath, logoX, logoY, { 
         fit: [logoWidth, logoHeight]
       });
     } catch (error) {
@@ -94,22 +99,12 @@ export const downloadMenuPDF = async (
         .fillColor('#ffffff')
         .fontSize(32)
         .font('Helvetica-Bold')
-        .text('Buvette EHTP', 50, 40, { align: 'center', width: 500 });
+        .text('Buvette EHTP', 0, (headerHeight - 40) / 2, { align: 'center', width: pageWidth });
     }
-
-    doc
-      .fillColor('#ffffff')
-      .fontSize(16)
-      .font('Helvetica')
-      .text('Menu Complet', 50, 95, { align: 'center', width: 500 });
-
-    doc
-      .fontSize(12)
-      .text('École Hassania des Travaux Publics', 50, 115, { align: 'center', width: 500 });
 
     // Reset to black text and move down
     doc.fillColor('#000000');
-    doc.y = 140;
+    doc.y = headerHeight + 10;
 
     // Draw a decorative line
     doc
