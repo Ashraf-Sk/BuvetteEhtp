@@ -12,6 +12,7 @@ router.use(authorize('employee', 'admin'));
 router.get('/dashboard/stats', apiRateLimiter, employeeController.getDashboardStats);
 router.get('/orders', apiRateLimiter, employeeController.getAllOrders);
 router.get('/orders/:status', apiRateLimiter, employeeController.getOrdersByStatus);
+router.get('/reports', apiRateLimiter, employeeController.getReports);
 
 export default router;
 

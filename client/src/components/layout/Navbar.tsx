@@ -35,32 +35,63 @@ export const Navbar: React.FC = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
-            <Link
-              to="/"
-              className="text-gray-700 hover:text-primary transition-colors font-medium"
-            >
-              {t('nav.home')}
-            </Link>
-            <Link
-              to="/menu"
-              className="text-gray-700 hover:text-primary transition-colors font-medium"
-            >
-              {t('nav.menu')}
-            </Link>
-            {isAuthenticated && (
+            {isAuthenticated && (user?.role === 'employee' || user?.role === 'admin') ? (
               <>
                 <Link
-                  to="/orders"
+                  to="/employee/dashboard"
                   className="text-gray-700 hover:text-primary transition-colors font-medium"
                 >
-                  {t('nav.orders')}
+                  {t('nav.dashboard')}
                 </Link>
                 <Link
-                  to="/favorites"
+                  to="/employee/orders"
                   className="text-gray-700 hover:text-primary transition-colors font-medium"
                 >
-                  {t('nav.favorites')}
+                  {t('employee.orders') || 'Commandes'}
                 </Link>
+                <Link
+                  to="/employee/inventory"
+                  className="text-gray-700 hover:text-primary transition-colors font-medium"
+                >
+                  {t('employee.inventory') || 'Inventaire'}
+                </Link>
+                <Link
+                  to="/employee/reports"
+                  className="text-gray-700 hover:text-primary transition-colors font-medium"
+                >
+                  {t('employee.reports') || 'Rapports'}
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/"
+                  className="text-gray-700 hover:text-primary transition-colors font-medium"
+                >
+                  {t('nav.home')}
+                </Link>
+                <Link
+                  to="/menu"
+                  className="text-gray-700 hover:text-primary transition-colors font-medium"
+                >
+                  {t('nav.menu')}
+                </Link>
+                {isAuthenticated && (
+                  <>
+                    <Link
+                      to="/orders"
+                      className="text-gray-700 hover:text-primary transition-colors font-medium"
+                    >
+                      {t('nav.orders')}
+                    </Link>
+                    <Link
+                      to="/favorites"
+                      className="text-gray-700 hover:text-primary transition-colors font-medium"
+                    >
+                      {t('nav.favorites')}
+                    </Link>
+                  </>
+                )}
               </>
             )}
           </div>
@@ -71,17 +102,19 @@ export const Navbar: React.FC = () => {
 
             {isAuthenticated ? (
               <>
-                <Link
-                  to="/cart"
-                  className="relative p-2 text-gray-700 hover:text-primary transition-colors"
-                >
-                  <ShoppingCart className="w-6 h-6" />
-                  {cartItemCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-accent text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                      {cartItemCount > 9 ? '9+' : cartItemCount}
-                    </span>
-                  )}
-                </Link>
+                {(user?.role === 'student' || !user?.role) && (
+                  <Link
+                    to="/cart"
+                    className="relative p-2 text-gray-700 hover:text-primary transition-colors"
+                  >
+                    <ShoppingCart className="w-6 h-6" />
+                    {cartItemCount > 0 && (
+                      <span className="absolute -top-1 -right-1 bg-accent text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                        {cartItemCount > 9 ? '9+' : cartItemCount}
+                      </span>
+                    )}
+                  </Link>
+                )}
 
                 <Link
                   to="/profile"

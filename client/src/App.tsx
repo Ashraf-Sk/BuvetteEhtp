@@ -22,6 +22,12 @@ import { OrderHistory } from './pages/student/OrderHistory';
 import { Favorites } from './pages/student/Favorites';
 import { Profile } from './pages/student/Profile';
 
+// Employee pages
+import { Dashboard as EmployeeDashboard } from './pages/employee/Dashboard';
+import { OrderManagement } from './pages/employee/OrderManagement';
+import { Inventory } from './pages/employee/Inventory';
+import { Reports } from './pages/employee/Reports';
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -34,6 +40,17 @@ const queryClient = new QueryClient({
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated } = useAuthStore();
   return isAuthenticated ? <>{children}</> : <Navigate to="/auth/login" />;
+};
+
+const EmployeeRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { isAuthenticated, user } = useAuthStore();
+  if (!isAuthenticated) {
+    return <Navigate to="/auth/login" />;
+  }
+  if (user?.role !== 'employee' && user?.role !== 'admin') {
+    return <Navigate to="/" />;
+  }
+  return <>{children}</>;
 };
 
 const AppContent: React.FC = () => {
@@ -119,6 +136,40 @@ const AppContent: React.FC = () => {
                 <ProtectedRoute>
                   <Profile />
                 </ProtectedRoute>
+              }
+            />
+
+            {/* Employee routes */}
+            <Route
+              path="/employee/dashboard"
+              element={
+                <EmployeeRoute>
+                  <EmployeeDashboard />
+                </EmployeeRoute>
+              }
+            />
+            <Route
+              path="/employee/orders"
+              element={
+                <EmployeeRoute>
+                  <OrderManagement />
+                </EmployeeRoute>
+              }
+            />
+            <Route
+              path="/employee/inventory"
+              element={
+                <EmployeeRoute>
+                  <Inventory />
+                </EmployeeRoute>
+              }
+            />
+            <Route
+              path="/employee/reports"
+              element={
+                <EmployeeRoute>
+                  <Reports />
+                </EmployeeRoute>
               }
             />
 

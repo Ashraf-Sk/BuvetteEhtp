@@ -15,7 +15,12 @@ export const useAuth = () => {
     onSuccess: (response) => {
       setAuth(response.user, response.token);
       toast.success('Connexion réussie');
-      navigate('/');
+      // Rediriger selon le rôle
+      if (response.user.role === 'employee' || response.user.role === 'admin') {
+        navigate('/employee/dashboard');
+      } else {
+        navigate('/');
+      }
     },
     onError: (error: any) => {
       toast.error(error.response?.data?.message || 'Erreur de connexion');

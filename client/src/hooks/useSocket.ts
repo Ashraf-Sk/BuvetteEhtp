@@ -8,7 +8,10 @@ export const useSocket = (events?: Record<string, (data: any) => void>) => {
   const socketRef = useRef<Socket | null>(null);
 
   useEffect(() => {
-    if (!isAuthenticated || !token) return;
+    if (!isAuthenticated || !token) {
+      socketRef.current = null;
+      return;
+    }
 
     const socket = socketService.connect(token);
     socketRef.current = socket;
@@ -21,9 +24,9 @@ export const useSocket = (events?: Record<string, (data: any) => void>) => {
     }
 
     return () => {
-      if (events) {
+      if (events && socketRef.current) {
         Object.keys(events).forEach((event) => {
-          socket.off(event);
+          socketRef.current?.off(event);
         });
       }
       socketService.disconnect();

@@ -108,3 +108,111 @@ export const getAllOrders = async (
   }
 };
 
+export const getReports = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const { startDate, endDate } = req.query;
+
+    const start = startDate ? new Date(startDate as string) : new Date();
+    start.setHours(0, 0, 0, 0);
+    start.setDate(start.getDate() - 30); // Default to last 30 days
+
+    const end = endDate ? new Date(endDate as string) : new Date();
+    end.setHours(23, 59, 59, 999);
+
+    // Get all completed orders in date range
+    const orders = await Order.find({
+      status: 'completed',
+      completedAt: { $gte: start, $lte: end },
+    })
+      .populate('items.product')
+      .populate('student', 'fullName');
+
+    // Calculate statistics
+    const totalRevenue = orders.reduce((sum, order) => sum + order.totalAmount, 0);
+    const totalOrders = orders.length;
+    const averageOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+
+    // Top products
+    const productStats: Record<string, { product: any; quantity: number; revenue: number }> = {};
+    orders.forEach((order) => {
+      order.items.forEach((item) => {
+        const productId = item.product.toString();
+        if (!productStats[productId]) {
+          productStats[productId] = {
+            product: item.product,
+            quantity: 0,
+            revenue: 0,
+          };
+        }
+        productStats[productId].quantity += item.quantity;
+        productStats[productId].revenue += item.price * item.quantity;
+      });
+    });
+
+    const topProducts = Object.values(productStats)
+      .sort((a, b) => b.quantity - a.quantity)
+      .slice(0, 10);
+
+    // Orders by status (all time)
+    const ordersByStatus = await Order.aggregate([
+      {
+        $group: {
+          _id: '$status',
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+
+    const statusMap: Record<string, number> = {};
+    ordersByStatus.forEach((item) => {
+      statusMap[item._id] = item.count;
+    });
+
+    // Revenue by day
+    const revenueByDay = await Order.aggregate([
+      {
+        $match: {
+          status: 'completed',
+          completedAt: { $gte: start, $lte: end },
+        },
+      },
+      {
+        $group: {
+          _id: {
+            $dateToString: { format: '%Y-%m-%d', date: '$completedAt' },
+          },
+          revenue: { $sum: '$totalAmount' },
+          orders: { $sum: 1 },
+        },
+      },
+      {
+        $sort: { _id: 1 },
+      },
+    ]);
+
+    const revenueByDayFormatted = revenueByDay.map((item) => ({
+      date: item._id,
+      revenue: item.revenue,
+      orders: item.orders,
+    }));
+
+    res.json({
+      success: true,
+      data: {
+        totalRevenue,
+        totalOrders,
+        averageOrderValue,
+        topProducts,
+        ordersByStatus: statusMap,
+        revenueByDay: revenueByDayFormatted,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
