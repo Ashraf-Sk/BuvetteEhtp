@@ -29,6 +29,7 @@ export const Home: React.FC = () => {
           {/* Logo/Brand */}
           <div className="mb-8">
             {/* Logo with white background for visibility */}
+            {/*  
             <div className="flex justify-center mb-6">
               <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-2xl transform hover:scale-105 transition-transform duration-300">
                 <img 
@@ -38,6 +39,7 @@ export const Home: React.FC = () => {
                 />
               </div>
             </div>
+            */}
             <h1 className="text-5xl md:text-7xl font-extrabold mb-4 drop-shadow-2xl">
               {t('home.hero_title') || 'Buvette EHTP'}
             </h1>

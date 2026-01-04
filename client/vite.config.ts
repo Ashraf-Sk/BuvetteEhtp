@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'icons/*.png'],
+      includeAssets: ['favicon.ico', 'icons/*.png', 'ehtpbuvettelogo.png'],
       manifest: {
         name: 'Buvette EHTP',
         short_name: 'Buvette',
