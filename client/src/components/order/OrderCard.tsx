@@ -5,6 +5,7 @@ import { Order } from '../../types/order.types';
 import { Badge } from '../common/Badge';
 import { Button } from '../common/Button';
 import { ORDER_STATUSES } from '../../utils/constants';
+import { OrderProgress } from './OrderProgress';
 
 interface OrderCardProps {
   order: Order;
@@ -89,8 +90,13 @@ export const OrderCard: React.FC<OrderCardProps> = ({
         )}
       </div>
 
+      {/* Progress Indicator */}
+      {order.status !== 'cancelled' && (
+        <OrderProgress order={order} />
+      )}
+
       {showActions && (
-        <div className="flex space-x-2">
+        <div className="flex space-x-2 mt-4">
           <Button
             variant="outline"
             size="sm"

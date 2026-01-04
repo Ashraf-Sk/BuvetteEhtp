@@ -4,6 +4,7 @@ import { Order } from '../../types/order.types';
 import { OrderCard } from './OrderCard';
 import { Spinner } from '../common/Spinner';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../common/Tabs';
+import { Package } from 'lucide-react';
 
 interface OrderHistoryProps {
   orders: Order[];
@@ -63,15 +64,25 @@ export const OrderHistory: React.FC<OrderHistoryProps> = ({
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value={activeFilter}>
+        <TabsContent value={activeFilter} className="mt-6">
           {filteredOrders.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-gray-500 text-lg">{t('orders.no_orders')}</p>
+            <div className="text-center py-12 bg-white rounded-lg shadow-sm">
+              <Package className="w-16 h-16 mx-auto mb-4 text-gray-300" />
+              <p className="text-gray-500 text-lg font-medium">{t('orders.no_orders') || 'Aucune commande'}</p>
+              <p className="text-gray-400 text-sm mt-2">
+                {activeFilter === 'all' 
+                  ? t('orders.no_orders_desc') || 'Vous n\'avez pas encore passé de commande'
+                  : t('orders.no_orders_filter') || `Aucune commande ${t(`orders.status_${activeFilter}`)?.toLowerCase()}`
+                }
+              </p>
             </div>
           ) : (
-            <div className="mt-6">
-              <div className="mb-4 text-sm text-gray-600">
-                {filteredOrders.length} {filteredOrders.length === 1 ? t('orders.order') || 'commande' : t('orders.orders') || 'commandes'}
+            <div>
+              <div className="mb-4 flex items-center justify-between">
+                <p className="text-sm text-gray-600">
+                  <span className="font-semibold text-gray-900">{filteredOrders.length}</span>{' '}
+                  {filteredOrders.length === 1 ? t('orders.order') || 'commande' : t('orders.orders') || 'commandes'}
+                </p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredOrders.map((order) => (

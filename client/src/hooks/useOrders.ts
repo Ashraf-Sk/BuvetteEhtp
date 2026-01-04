@@ -3,10 +3,11 @@ import { toast } from 'react-hot-toast';
 import { orderService } from '../services/order.service';
 import { CreateOrderData } from '../types/order.types';
 
-export const useOrders = (status?: string, page = 1) => {
+export const useOrders = (status?: string, page = 1, limit = 100) => {
   return useQuery({
-    queryKey: ['orders', status, page],
-    queryFn: () => orderService.getOrders(status, page),
+    queryKey: ['orders', status, page, limit],
+    queryFn: () => orderService.getOrders(status, page, limit),
+    refetchInterval: 5000, // Refetch every 5 seconds to see real-time updates
   });
 };
 

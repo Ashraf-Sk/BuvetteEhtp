@@ -11,10 +11,15 @@ export const orderService = {
   getOrders: async (status?: string, page = 1, limit = 20): Promise<PaginatedResponse<Order>> => {
     const params = new URLSearchParams({ page: String(page), limit: String(limit) });
     if (status) params.append('status', status);
-    const response = await api.get<ApiResponse<PaginatedResponse<Order>>>(
+    const response = await api.get<ApiResponse<{ orders: Order[]; pagination: any }>>(
       `/orders?${params.toString()}`
     );
-    return response.data.data!;
+    // Backend returns { orders: Order[], pagination: {...} } but we normalize it to PaginatedResponse
+    const backendData = response.data.data!;
+    return {
+      data: backendData.orders,
+      pagination: backendData.pagination,
+    };
   },
 
   getOrder: async (id: string): Promise<Order> => {

@@ -110,7 +110,10 @@
     "ready_in": "Prête dans",
     "waiting_for_pickup": "En attente de récupération",
     "completed_at": "Complétée le",
-    "cancellation_reason": "Raison d'annulation"
+    "cancellation_reason": "Raison d'annulation",
+    "progress": "Progression",
+    "no_orders_desc": "Vous n'avez pas encore passé de commande",
+    "no_orders_filter": "Aucune commande avec ce statut"
   },
   "favorites": {
     "title": "Mes favoris",

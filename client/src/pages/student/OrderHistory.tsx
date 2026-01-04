@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useTranslation } from '../../hooks/useTranslation';
 import { useOrders } from '../../hooks/useOrders';
 import { OrderHistory as OrderHistoryComponent } from '../../components/order/OrderHistory';
-import { Order } from '../../types/order.types';
 import { Package } from 'lucide-react';
 
 export const OrderHistory: React.FC = () => {
@@ -10,9 +9,9 @@ export const OrderHistory: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const { data, isLoading, error } = useOrders(statusFilter === 'all' ? undefined : statusFilter);
 
-  // Handle both paginated and non-paginated responses
-  // The API returns { orders: Order[], pagination: {...} }
-  const orders = (data?.data as { orders?: Order[]; pagination?: any })?.orders || [] as Order[];
+  // The service now normalizes the response to PaginatedResponse<Order>
+  // which is { data: Order[], pagination: {...} }
+  const orders = data?.data || [];
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
