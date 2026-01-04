@@ -20,18 +20,28 @@ export const Home: React.FC = () => {
           backgroundRepeat: 'no-repeat',
         }}
       >
-        {/* Overlay with gradient for better text readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/70"></div>
-        <div className="absolute inset-0 bg-primary/20"></div>
+        {/* Overlay with gradient for better text readability - lighter overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-black/40 to-primary/30"></div>
+        <div className="absolute inset-0 bg-black/30"></div>
         
         {/* Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           {/* Logo/Brand */}
-          <div className="mb-6">
+          <div className="mb-8">
+            {/* Logo with white background for visibility */}
+            <div className="flex justify-center mb-6">
+              <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-2xl transform hover:scale-105 transition-transform duration-300">
+                <img 
+                  src="/ehtpbuvettelogo.png" 
+                  alt="Buvette EHTP Logo" 
+                  className="h-24 md:h-32 w-auto object-contain"
+                />
+              </div>
+            </div>
             <h1 className="text-5xl md:text-7xl font-extrabold mb-4 drop-shadow-2xl">
               {t('home.hero_title') || 'Buvette EHTP'}
             </h1>
-            <div className="w-24 h-1 bg-white mx-auto mb-6"></div>
+            <div className="w-24 h-1 bg-primary mx-auto mb-6 shadow-lg"></div>
           </div>
 
           {/* Main Slogan */}
