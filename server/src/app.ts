@@ -14,6 +14,7 @@ import userRoutes from './routes/user.routes';
 import employeeRoutes from './routes/employee.routes';
 import notificationRoutes from './routes/notification.routes';
 import menuRoutes from './routes/menu.routes';
+import paymentRoutes from './routes/payment.routes';
 
 const app: Application = express();
 
@@ -48,6 +49,7 @@ app.use('/api/menu', menuRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/employee', employeeRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/payment', paymentRoutes);
 
 // 404 handler (after all routes, before error handler)
 app.use((_req, res) => {

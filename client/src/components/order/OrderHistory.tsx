@@ -39,18 +39,27 @@ export const OrderHistory: React.FC<OrderHistoryProps> = ({
   return (
     <div>
       <Tabs value={activeFilter} onValueChange={handleValueChange}>
-        <TabsList>
+        <TabsList className="flex-wrap">
           <TabsTrigger value="all">
-            {t('common.all') || 'All'}
+            {t('common.all') || 'Toutes'}
           </TabsTrigger>
           <TabsTrigger value="pending">
             {t('orders.status_pending')}
           </TabsTrigger>
+          <TabsTrigger value="confirmed">
+            {t('orders.status_confirmed')}
+          </TabsTrigger>
           <TabsTrigger value="preparing">
             {t('orders.status_preparing')}
           </TabsTrigger>
+          <TabsTrigger value="ready">
+            {t('orders.status_ready')}
+          </TabsTrigger>
           <TabsTrigger value="completed">
             {t('orders.status_completed')}
+          </TabsTrigger>
+          <TabsTrigger value="cancelled">
+            {t('orders.status_cancelled')}
           </TabsTrigger>
         </TabsList>
 
@@ -60,10 +69,15 @@ export const OrderHistory: React.FC<OrderHistoryProps> = ({
               <p className="text-gray-500 text-lg">{t('orders.no_orders')}</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-              {filteredOrders.map((order) => (
-                <OrderCard key={order._id} order={order} />
-              ))}
+            <div className="mt-6">
+              <div className="mb-4 text-sm text-gray-600">
+                {filteredOrders.length} {filteredOrders.length === 1 ? t('orders.order') || 'commande' : t('orders.orders') || 'commandes'}
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredOrders.map((order) => (
+                  <OrderCard key={order._id} order={order} />
+                ))}
+              </div>
             </div>
           )}
         </TabsContent>

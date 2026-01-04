@@ -19,6 +19,9 @@ interface EnvConfig {
   CMI_MERCHANT_ID?: string;
   CMI_SECRET_KEY?: string;
   CMI_API_URL?: string;
+  STRIPE_SECRET_KEY?: string;
+  STRIPE_PUBLISHABLE_KEY?: string;
+  STRIPE_WEBHOOK_SECRET?: string;
   CLIENT_URL: string;
   VAPID_PUBLIC_KEY?: string;
   VAPID_PRIVATE_KEY?: string;
@@ -63,6 +66,9 @@ export const env: EnvConfig = {
   CMI_MERCHANT_ID: process.env.CMI_MERCHANT_ID || undefined,
   CMI_SECRET_KEY: process.env.CMI_SECRET_KEY || undefined,
   CMI_API_URL: process.env.CMI_API_URL || undefined,
+  STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY || undefined,
+  STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY || undefined,
+  STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET || undefined,
   CLIENT_URL: getEnvVar('CLIENT_URL', 'http://localhost:5173'),
   VAPID_PUBLIC_KEY: process.env.VAPID_PUBLIC_KEY || undefined,
   VAPID_PRIVATE_KEY: process.env.VAPID_PRIVATE_KEY || undefined,

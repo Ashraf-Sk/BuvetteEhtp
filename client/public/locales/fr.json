@@ -21,7 +21,8 @@
     "quantity": "Quantité",
     "price": "Prix",
     "subtotal": "Sous-total",
-    "continue": "Continuer"
+    "continue": "Continuer",
+    "all": "Toutes"
   },
   "nav": {
     "home": "Accueil",
@@ -109,8 +110,11 @@
   "orders": {
     "title": "Mes commandes",
     "tracking": "Suivi de commande",
-    "history": "Historique",
+    "history": "Historique des commandes",
+    "history_desc": "Consultez toutes vos commandes passées et en cours",
     "no_orders": "Aucune commande",
+    "order": "commande",
+    "orders": "commandes",
     "order_number": "Commande",
     "date": "Date",
     "status": "Statut",
@@ -119,6 +123,8 @@
     "track": "Suivre",
     "cancel": "Annuler",
     "reorder": "Commander à nouveau",
+    "items": "Articles",
+    "more_items": "autres articles",
     "status_pending": "En attente",
     "status_confirmed": "Confirmée",
     "status_preparing": "En préparation",

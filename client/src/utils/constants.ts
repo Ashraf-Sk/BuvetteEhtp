@@ -1,6 +1,7 @@
 export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 export const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000';
 export const VAPID_PUBLIC_KEY = import.meta.env.VITE_VAPID_PUBLIC_KEY || '';
+export const STRIPE_PUBLISHABLE_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || '';
 
 export const PRODUCT_CATEGORIES = [
   { value: 'petit-dejeuner', label: { fr: 'Petit-Déjeuner', ar: 'فطور', en: 'Breakfast' } },

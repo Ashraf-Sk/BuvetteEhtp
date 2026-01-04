@@ -9,6 +9,8 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
+    "@stripe/react-stripe-js": "^5.4.1",
+    "@stripe/stripe-js": "^8.6.0",
     "@tanstack/react-query": "^5.17.9",
     "@types/pdfkit": "^0.17.4",
     "axios": "^1.6.2",
@@ -23,6 +25,7 @@
     "react-i18next": "^13.5.0",
     "react-router-dom": "^6.21.1",
     "socket.io-client": "^4.6.1",
+    "stripe": "^20.1.0",
     "zustand": "^4.4.7"
   },
   "devDependencies": {

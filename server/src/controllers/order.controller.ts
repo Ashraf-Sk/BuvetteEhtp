@@ -6,6 +6,7 @@ import { generateQRCode } from '../utils/generateQRCode';
 import { NotFoundError, ValidationError } from '../utils/errorHandler';
 import { createNotification } from '../services/notification.service';
 import { OrderStatus } from '../models/Order';
+import { getPaymentIntent } from '../services/stripe.service';
 
 export const createOrder = async (
   req: Request,
@@ -13,7 +14,7 @@ export const createOrder = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { items, paymentMethod, notes } = req.body;
+    const { items, paymentMethod, notes, paymentIntentId } = req.body;
     const userId = req.user!._id;
 
     if (!items || items.length === 0) {
@@ -53,6 +54,23 @@ export const createOrder = async (
       });
     }
 
+    // Verify payment if card payment
+    let paymentStatus: 'pending' | 'paid' | 'refunded' = 'pending';
+    if (paymentMethod === 'card' && paymentIntentId) {
+      try {
+        const paymentIntent = await getPaymentIntent(paymentIntentId);
+        if (paymentIntent.status === 'succeeded') {
+          paymentStatus = 'paid';
+        } else if (paymentIntent.status === 'requires_payment_method') {
+          throw new ValidationError('Payment was not completed');
+        }
+      } catch (error: any) {
+        throw new ValidationError(
+          error.message || 'Payment verification failed'
+        );
+      }
+    }
+
     // Generate order number and QR code
     const orderNumber = generateOrderNumber();
     const qrCode = await generateQRCode(orderNumber);
@@ -65,7 +83,7 @@ export const createOrder = async (
       items: orderItems,
       totalAmount,
       paymentMethod,
-      paymentStatus: paymentMethod === 'cash' ? 'pending' : 'pending',
+      paymentStatus,
       status: 'pending',
       notes,
     });

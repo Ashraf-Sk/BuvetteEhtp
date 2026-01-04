@@ -44,10 +44,15 @@ CLOUDINARY_CLOUD_NAME=votre-cloud-name
 CLOUDINARY_API_KEY=votre-api-key
 CLOUDINARY_API_SECRET=votre-api-secret
 
-# Payment (optionnel pour MVP)
+# Payment - CMI (optionnel)
 CMI_MERCHANT_ID=
 CMI_SECRET_KEY=
 CMI_API_URL=https://payment.cmi.ma/
+
+# Payment - Stripe (pour Visa/Mastercard)
+STRIPE_SECRET_KEY=sk_test_51SlrugRBqZMgxLz9... (votre clé complète)
+STRIPE_PUBLISHABLE_KEY=pk_test_51SlrugRBqZMgxLz91D6wYUITOLvYSfiKsGladwTKICmwOPiSJHmw9Ui0ktpOdExLI574JjRuBLJoPppgLFzbt6uX00M15sraZg
+STRIPE_WEBHOOK_SECRET=whsec_... (optionnel, pour les webhooks)
 
 # Client URL
 CLIENT_URL=http://localhost:5173
@@ -70,7 +75,12 @@ Créez un fichier `.env` dans le dossier `client/` :
 VITE_API_URL=http://localhost:5000/api
 VITE_SOCKET_URL=http://localhost:5000
 VITE_VAPID_PUBLIC_KEY=votre-vapid-public-key
+
+# Stripe (pour paiement par carte)
+VITE_STRIPE_PUBLISHABLE_KEY=pk_test_51SlrugRBqZMgxLz91D6wYUITOLvYSfiKsGladwTKICmwOPiSJHmw9Ui0ktpOdExLI574JjRuBLJoPppgLFzbt6uX00M15sraZg
 ```
+
+**Note** : Pour plus de détails sur la configuration Stripe, consultez [STRIPE_SETUP.md](./STRIPE_SETUP.md)
 
 ### 3. Base de Données MongoDB
 

@@ -36,6 +36,7 @@ export interface CreateOrderData {
   }>;
   paymentMethod: PaymentMethod;
   notes?: string;
+  paymentIntentId?: string;
 }
 
 export interface CartItem {

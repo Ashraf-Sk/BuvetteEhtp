@@ -31,6 +31,17 @@ export const sendPushNotification = async (
       return;
     }
 
+    // Validate subscription structure
+    if (!user.pushSubscription.endpoint) {
+      console.log(`User ${userId} has invalid push subscription (missing endpoint)`);
+      return;
+    }
+
+    if (!user.pushSubscription.keys || !user.pushSubscription.keys.p256dh || !user.pushSubscription.keys.auth) {
+      console.log(`User ${userId} has invalid push subscription (missing keys)`);
+      return;
+    }
+
     const subscription = {
       endpoint: user.pushSubscription.endpoint,
       keys: {
@@ -42,8 +53,12 @@ export const sendPushNotification = async (
     await webpush.sendNotification(subscription, JSON.stringify(payload));
     console.log(`✅ Push notification sent to user ${userId}`);
   } catch (error: any) {
-    console.error('❌ Error sending push notification:', error);
-    // Don't throw - push notifications are optional
+    // Log error but don't throw - push notifications are optional
+    if (error.message?.includes('subscription')) {
+      console.log(`⚠️ Push notification skipped for user ${userId}: ${error.message}`);
+    } else {
+      console.error('❌ Error sending push notification:', error.message || error);
+    }
   }
 };
 
